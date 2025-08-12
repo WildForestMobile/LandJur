@@ -1,0 +1,1605 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jurmak - ИИ-юрист для каждого бизнеса</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #0ea5e9;
+            --accent: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --light: #f1f5f9;
+            --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.05"><path d="M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z"/></g></g></svg>');
+            animation: float 20s infinite linear;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50%, -50%); }
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+            z-index: 1;
+            padding: 2rem;
+            animation: fadeInUp 1s ease;
+            max-width: 900px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tagline {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            line-height: 1.3;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+            line-height: 1.4;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 3rem;
+            font-size: 1.2rem;
+            background: white;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+            animation: fadeIn 0.8s ease;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Problem Section */
+        .problem {
+            background: var(--light);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        /* Solution Section */
+        .solution-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .solution-card {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .solution-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: var(--gradient);
+        }
+
+        .solution-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .solution-title {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        /* Video Demo Section */
+        .video-demo {
+            background: var(--dark);
+            color: white;
+            padding: 100px 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .video-demo h2 {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+            margin-bottom: 1rem;
+        }
+
+        .video-subtitle {
+            font-size: 1.3rem;
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 4rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .videos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(550px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .video-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .video-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            background: #000;
+        }
+
+        .video-wrapper video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .video-info {
+            padding: 2rem;
+        }
+
+        .video-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .video-icon {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .video-description {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .video-features {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .video-features li {
+            padding: 0.5rem 0;
+            color: rgba(255, 255, 255, 0.7);
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .video-features li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        .video-main {
+            grid-column: span 2;
+        }
+
+        @media (max-width: 1200px) {
+            .videos-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .video-main {
+                grid-column: span 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .videos-grid {
+                gap: 2rem;
+            }
+        }
+
+        /* Demo Section */
+        .demo-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            margin-top: 3rem;
+        }
+
+        .demo-header {
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .demo-steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0;
+        }
+        
+        @media (max-width: 992px) {
+            .demo-steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .demo-step {
+            padding: 2rem;
+            text-align: center;
+            border-right: 1px solid #e2e8f0;
+            position: relative;
+        }
+
+        .demo-step:last-child {
+            border-right: none;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            line-height: 50px;
+            background: var(--gradient);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        /* Market Section */
+        .market-visual {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .market-circle {
+            position: relative;
+            text-align: center;
+        }
+
+        .circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            font-size: 1.5rem;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .tam { 
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            width: 250px;
+            height: 250px;
+            font-size: 2rem;
+        }
+
+        .sam { 
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            width: 180px;
+            height: 180px;
+        }
+
+        .som { 
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            width: 120px;
+            height: 120px;
+        }
+
+        .market-label {
+            margin-top: 1rem;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        /* Pricing Section */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            max-width: 1200px;
+            margin: 3rem auto 0;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card.featured {
+            background: var(--gradient);
+            color: white;
+            transform: scale(1.03);
+            box-shadow: 0 15px 40px rgba(103, 126, 234, 0.3);
+        }
+
+        .pricing-tier {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 2.2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .pricing-features li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            font-size: 0.95rem;
+        }
+
+        .featured .pricing-features li {
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+        }
+
+        /* Team Section */
+        .team-container {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            margin-top: 3rem;
+        }
+
+        .founder-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .founder-image {
+            background: var(--gradient);
+            border-radius: 15px;
+            height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 5rem;
+            font-weight: 900;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .founder-image img {
+            width: 140%;
+            height: 140%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .advisor-section {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 3rem;
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 15px;
+        }
+
+        .advisor-image {
+            background: #f0f0f0;
+            border-radius: 5px;
+            height: 550px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .advisor-image img {
+            width: auto;
+            height: 120%;
+            object-fit: contain;
+            object-position: center 40%;
+            transform: translateY(-2%);
+        }
+
+        .advisor-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .founder-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+
+        .achievement-list {
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .achievement-list li {
+            padding: 0.8rem 0;
+            border-left: 3px solid var(--accent);
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .quote {
+            background: var(--light);
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-style: italic;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .quote::before {
+            content: '"';
+            font-size: 4rem;
+            color: var(--primary);
+            position: absolute;
+            top: -20px;
+            left: 20px;
+            opacity: 0.3;
+        }
+
+        /* Metrics Section */
+        .metrics-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .metric-card {
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s ease;
+        }
+        
+        .metric-card:hover {
+            transform: translateY(-5px);
+        }
+
+        /* Investment Section */
+        .investment {
+            background: var(--dark);
+            color: white;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .investment h2 {
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+        .investment-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .investment-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .investment-amount {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .milestone-list {
+            list-style: none;
+            margin-top: 1rem;
+        }
+
+        .milestone-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .milestone-list li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .metrics-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .metrics-grid .metric-card:last-child {
+                grid-column: span 1;
+            }
+        }
+
+        /* CTA Section */
+        .final-cta {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .final-cta h2 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: white;
+            background: none;
+            -webkit-text-fill-color: white;
+        }
+
+        .cta-description {
+            font-size: 1.3rem;
+            margin-bottom: 3rem;
+            opacity: 0.95;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .contact-item {
+            font-size: 1.1rem;
+        }
+
+        .contact-item a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .pricing-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .tagline {
+                font-size: 1.4rem;
+            }
+            
+            .founder-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .advisor-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .investment-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-steps {
+                grid-template-columns: 1fr;
+            }
+            
+            .demo-step {
+                border-right: none;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            
+            .demo-step:last-child {
+                border-bottom: none;
+            }
+            
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .pricing-card.featured {
+                transform: scale(1);
+            }
+        }
+
+        /* Scroll animations */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-content">
+            <h1 class="logo">JURMAK</h1>
+            <p class="tagline">ИИ-юрист для вашего бизнеса 24/7</p>
+            <p class="subtitle">Полный юридический анализ документов за 30 секунд</p>
+            <p style="font-size: 1.4rem; margin: 1.5rem 0; font-weight: 600; color: #fbbf24;">🚀 От загрузки документа до готовых решений за минуту</p>
+            <p style="font-size: 1.3rem; margin: 1.5rem 0; font-weight: 500; color: #fff; opacity: 0.95;">🍟 Просто как сходить в Макдональдс</p>
+            <a href="#problem" class="cta-button">Узнать больше</a>
+        </div>
+    </div>
+
+    <!-- Problem Section -->
+    <section id="problem" class="problem animate-on-scroll">
+        <div class="container">
+            <h2>Проблема, которую мы решаем</h2>
+            <p style="text-align: center; margin-bottom: 3rem; color: #64748b;">*По данным исследований РБК и Право.ru за 2024 год</p>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">90%</span>
+                    <span class="stat-label">малых компаний не могут позволить постоянного юриста</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">₽30-150K</span>
+                    <span class="stat-label">стоимость проверки договора юристом в РФ</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">3-5 дней</span>
+                    <span class="stat-label">среднее время юридической экспертизы</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">67%</span>
+                    <span class="stat-label">договоров содержат скрытые риски</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">43%</span>
+                    <span class="stat-label">компаний теряли деньги из-за ошибок в договорах</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">2 часа</span>
+                    <span class="stat-label">тратит юрист на проверку типового договора</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">₽2.3 млрд</span>
+                    <span class="stat-label">потери бизнеса от юридических ошибок в год</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">78%</span>
+                    <span class="stat-label">предпринимателей не понимают юридический язык</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Solution Section -->
+    <section id="solution" class="solution animate-on-scroll">
+        <div class="container">
+            <h2>Наше решение</h2>
+            <p style="text-align: center; margin-bottom: 3rem; font-size: 1.3rem; color: #64748b;">Jurmak - это ИИ-система, которая анализирует юридические документы на русском языке,<br>выявляет все риски и дает конкретные рекомендации по их устранению</p>
+            <div class="solution-grid">
+                <div class="solution-card">
+                    <div class="solution-icon">🚀</div>
+                    <div class="solution-title">30 секунд</div>
+                    <p><strong>Боль:</strong> Ждете анализ неделями<br>
+                    <strong>Решение:</strong> Полный анализ за полминуты</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">🔍</div>
+                    <div class="solution-title">10-30 рисков</div>
+                    <p><strong>Боль:</strong> Упускаете важные детали<br>
+                    <strong>Решение:</strong> ИИ находит все подводные камни</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">✅</div>
+                    <div class="solution-title">95% точность</div>
+                    <p><strong>Боль:</strong> Сомневаетесь в качестве<br>
+                    <strong>Решение:</strong> Проверено топ-юристами</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">💎</div>
+                    <div class="solution-title">Генерация документов</div>
+                    <p><strong>Боль:</strong> Тратите часы на создание договоров<br>
+                    <strong>Решение:</strong> Готовые шаблоны под вашу ситуацию</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">📚</div>
+                    <div class="solution-title">Простой язык</div>
+                    <p><strong>Боль:</strong> Не понимаете юридические термины<br>
+                    <strong>Решение:</strong> Объясняем человеческим языком</p>
+                </div>
+                <div class="solution-card">
+                    <div class="solution-icon">🔗</div>
+                    <div class="solution-title">Ссылки на законы</div>
+                    <p><strong>Боль:</strong> Не знаете где проверить<br>
+                    <strong>Решение:</strong> Прямые ссылки на статьи</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo animate-on-scroll">
+        <div class="container">
+            <h2>Как это работает</h2>
+            <div class="demo-container">
+                <div class="demo-header">4 простых шага к безопасным документам</div>
+                <div class="demo-steps">
+                    <div class="demo-step">
+                        <div class="step-number">1</div>
+                        <h3>Загрузите документ</h3>
+                        <p>PDF, DOCX или TXT формат</p>
+                    </div>
+                    <div class="demo-step">
+                        <div class="step-number">2</div>
+                        <h3>ИИ анализирует</h3>
+                        <p>Продвинутый ИИ за 30 секунд проверит каждый пункт</p>
+                    </div>
+                    <div class="demo-step">
+                        <div class="step-number">3</div>
+                        <h3>Изучите риски</h3>
+                        <p>Интерактивный список рисков с рекомендациями</p>
+                    </div>
+                    <div class="demo-step">
+                        <div class="step-number">4</div>
+                        <h3>Скачайте отчет</h3>
+                        <p>Экспорт в PDF или DOCX для редактирования</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Demo Section -->
+    <section id="video-demo" class="video-demo animate-on-scroll">
+        <div class="container">
+            <h2>Посмотрите Jurmak в действии</h2>
+            <p class="video-subtitle">
+                Реальная демонстрация всех ключевых функций системы.<br>
+                От загрузки документа до получения полного юридического анализа.
+            </p>
+            
+            <div class="videos-grid">
+                <!-- Главное видео - Загрузка и анализ -->
+                <div class="video-card video-main">
+                    <div class="video-wrapper">
+                        <video controls poster="">
+                            <source src="Video/Загрузка и анализ.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            <span class="video-icon">📤</span>
+                            Загрузка и мгновенный анализ документа
+                        </h3>
+                        <p class="video-description">
+                            Основной процесс работы: от загрузки документа до получения детального анализа за 15 секунд.
+                        </p>
+                        <ul class="video-features">
+                            <li>Поддержка PDF, DOCX, TXT форматов</li>
+                            <li>Автоматическое извлечение текста</li>
+                            <li>Анализ с помощью AI</li>
+                            <li>Мгновенное отображение результатов</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Видео - Риски -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <video controls>
+                            <source src="Video/Риски .mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            <span class="video-icon">⚠️</span>
+                            Детальный анализ рисков
+                        </h3>
+                        <p class="video-description">
+                            Система выявляет и категоризирует все юридические риски с подробным описанием.
+                        </p>
+                        <ul class="video-features">
+                            <li>3 уровня критичности рисков</li>
+                            <li>Правовое обоснование каждого риска</li>
+                            <li>Конкретные рекомендации по устранению</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Видео - Гиперссылки и нормативная база -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <video controls>
+                            <source src="Video/переход по гиперссылкам и нормативная база.mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            <span class="video-icon">🔗</span>
+                            Нормативная база и гиперссылки
+                        </h3>
+                        <p class="video-description">
+                            Прямые ссылки на актуальное законодательство для каждого выявленного риска.
+                        </p>
+                        <ul class="video-features">
+                            <li>Ссылки на статьи законов</li>
+                            <li>Актуальная судебная практика</li>
+                            <li>Переход к первоисточникам</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Видео - Приоритетные действия -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <video controls>
+                            <source src="Video/Приоритетные действия .mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            <span class="video-icon">🎯</span>
+                            Приоритетные действия
+                        </h3>
+                        <p class="video-description">
+                            Четкий план действий по устранению выявленных проблем в порядке важности.
+                        </p>
+                        <ul class="video-features">
+                            <li>Пошаговые рекомендации</li>
+                            <li>Приоритизация по критичности</li>
+                            <li>Как реально работает на практике</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Видео - Экспорт отчета -->
+                <div class="video-card">
+                    <div class="video-wrapper">
+                        <video controls>
+                            <source src="Video/Экспорт отчета .mp4" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-title">
+                            <span class="video-icon">📄</span>
+                            Экспорт профессионального отчета
+                        </h3>
+                        <p class="video-description">
+                            Сохранение полного анализа в удобном формате для дальнейшей работы.
+                        </p>
+                        <ul class="video-features">
+                            <li>Экспорт в PDF и DOCX</li>
+                            <li>Сохранение форматирования</li>
+                            <li>Готовый документ для использования</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Market Section -->
+    <section id="market" class="market animate-on-scroll">
+        <div class="container">
+            <h2>Размер рынка</h2>
+            <div class="market-visual">
+                <div class="market-circle">
+                    <div class="circle tam">$35B</div>
+                    <div class="market-label">TAM - Глобальный Legal Tech</div>
+                </div>
+                <div class="market-circle">
+                    <div class="circle sam">$3.5B</div>
+                    <div class="market-label">SAM - Автоматизация документов</div>
+                </div>
+                <div class="market-circle">
+                    <div class="circle som">$45M</div>
+                    <div class="market-label">SOM - Наша цель за 3 года</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing animate-on-scroll">
+        <div class="container">
+            <h2>Бизнес-модель</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-tier">Freemium</div>
+                    <div class="pricing-price">Бесплатно</div>
+                    <ul class="pricing-features">
+                        <li>2 анализа в месяц</li>
+                        <li>Базовые риски и рекомендации</li>
+                        <li>Доступ к базе знаний</li>
+                        <li>Сообщество пользователей</li>
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-tier">Starter</div>
+                    <div class="pricing-price">$59/мес</div>
+                    <ul class="pricing-features">
+                        <li>20 анализов в месяц</li>
+                        <li>Генерация рекомендаций</li>
+                        <li>Составление ответных писем</li>
+                        <li>Шаблоны документов</li>
+                        <li>Поиск по базе судебных решений</li>
+                        <li>Экспорт в PDF</li>
+                    </ul>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-tier">Professional</div>
+                    <div class="pricing-price">$199/мес</div>
+                    <ul class="pricing-features">
+                        <li>100 анализов в месяц</li>
+                        <li>Все типы рисков и рекомендаций</li>
+                        <li>Подготовка аргументации для суда</li>
+                        <li>Генерация документов под задачу</li>
+                        <li>Сравнение версий документов</li>
+                        <li>Экспорт в PDF/DOCX/Word</li>
+                        
+                    </ul>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-tier">Business</div>
+                    <div class="pricing-price">$499/мес</div>
+                    <ul class="pricing-features">
+                        <li>500 анализов в месяц</li>
+			<li>Интеллектуальный поиск прецедентов</li>
+			<li>Выстраивание защиты/нападения</li>
+                        <li>Мировой поиск в базе дел</li>
+                        <li>API доступ для интеграций</li>
+			<li>+Все функции Professional</li>
+                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Competitors Section -->
+    <section id="competitors" class="competitors animate-on-scroll">
+        <div class="container">
+            <h2>Анализ конкурентов</h2>
+            <p style="text-align: center; margin-bottom: 3rem; font-size: 1.2rem; color: #64748b;">
+                Мы создаем новый стандарт Legal Tech для русскоязычного рынка
+            </p>
+            
+            <div style="overflow-x: auto; margin-bottom: 3rem;">
+                <table style="width: 100%; background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+                    <thead>
+                        <tr style="background: var(--gradient); color: white;">
+                            <th style="padding: 1.5rem; text-align: left; font-size: 1.1rem;">Параметр</th>
+                            <th style="padding: 1.5rem; text-align: center;">JURMAK</th>
+                            <th style="padding: 1.5rem; text-align: center;">Право.ru</th>
+                            <th style="padding: 1.5rem; text-align: center;">Caselook</th>
+                            <th style="padding: 1.5rem; text-align: center;">Консультант+</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 1rem; font-weight: 600;">Анализ документов с AI</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">✅ 30 сек</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">⚠️ Частично</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                            <td style="padding: 1rem; font-weight: 600;">Генерация документов</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">✅ Q1 2026</td>
+                            <td style="padding: 1rem; text-align: center;">⚠️ Шаблоны</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">⚠️ Шаблоны</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 1rem; font-weight: 600;">Поиск прецедентов</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">✅ AI-поиск</td>
+                            <td style="padding: 1rem; text-align: center;">✅ База</td>
+                            <td style="padding: 1rem; text-align: center;">✅ База</td>
+                            <td style="padding: 1rem; text-align: center;">⚠️ Ограничено</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                            <td style="padding: 1rem; font-weight: 600;">Стоимость</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">$59-499/мес</td>
+                            <td style="padding: 1rem; text-align: center;">$500-2000/мес</td>
+                            <td style="padding: 1rem; text-align: center;">$300-1500/мес</td>
+                            <td style="padding: 1rem; text-align: center;">$200-800/мес</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 1rem; font-weight: 600;">Скорость работы</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">30 секунд</td>
+                            <td style="padding: 1rem; text-align: center;">24-48 часов</td>
+                            <td style="padding: 1rem; text-align: center;">2-5 часов</td>
+                            <td style="padding: 1rem; text-align: center;">1-3 часа</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0; background: #f8fafc;">
+                            <td style="padding: 1rem; font-weight: 600;">Подготовка аргументации</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">✅ AI</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 1rem; font-weight: 600;">API интеграции</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">✅ Q3 2026</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">⚠️ Ограничено</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                        </tr>
+                        <tr style="background: #f0fdf4;">
+                            <td style="padding: 1rem; font-weight: 600;">Генерация защиты/нападения</td>
+                            <td style="padding: 1rem; text-align: center; color: var(--accent); font-weight: bold;">30 секунд</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                            <td style="padding: 1rem; text-align: center;">❌</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+                <div style="background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05)); padding: 2rem; border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.2);">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">🏆 Наши преимущества</h3>
+                    <ul style="list-style: none;">
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--accent);">✓</span> Мгновенный AI-анализ (30 сек вс 2-48 часов)</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--accent);">✓</span> Цена в 3-10 раз ниже конкурентов</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--accent);">✓</span> Полная автоматизация всего цикла</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--accent);">✓</span> AI-генерация документов и аргументов</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--accent);">✓</span> Простота использования для SMB</li>
+                    </ul>
+                </div>
+                
+                <div style="background: linear-gradient(135deg, rgba(37, 99, 235, 0.1), rgba(37, 99, 235, 0.05)); padding: 2rem; border-radius: 15px; border: 1px solid rgba(37, 99, 235, 0.2);">
+                    <h3 style="color: var(--primary); margin-bottom: 1rem;">🚀 Наша стратегия</h3>
+                    <ul style="list-style: none;">
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--primary);">→</span> Фокус на SMB рынок (95% рынка)</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--primary);">→</span> Freemium модель для быстрого роста</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--primary);">→</span> Product-led growth через виральность</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--primary);">→</span> Партнерства с банками и бухгалтериями</li>
+                        <li style="padding: 0.5rem 0;"><span style="color: var(--primary);">→</span> Международная экспансия (Казахстан, Беларусь)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team animate-on-scroll">
+        <div class="container">
+            <h2>Команда</h2>
+            <div class="team-container">
+                <div class="founder-section">
+                    <div class="founder-image">
+                        <img src="pictures/Sergey CEO.jpg" alt="Сергей Корнилов" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+                    </div>
+                    <div class="founder-info">
+                        <h3>Сергей Корнилов, CEO/Founder</h3>
+                        <p>34 года, серийный предприниматель</p>
+                        <ul class="achievement-list">
+                            <li>Привлек несколько миллионов долларов инвестиций в Wild Forest</li>
+                            <li>Увеличил оценку компании на $2M за одну сделку</li>
+                            <li>Вернул IP стоимостью €365K, снизив выкуп до €250K</li>
+                            <li>Создал 2 продукта: 200K+ и 60K вишлистов, NPS 40</li>
+                            <li>2 года судебных битв с Koch Media - победа</li>
+                        </ul>
+                        <div class="quote">
+                            "Если бы не упорство Сергея, эта сделка - самая сложная в нашей истории - не состоялась бы"
+                            <br><small>- Ведущий инвестор Wild Forest</small>
+                        </div>
+                    </div>
+                </div>
+                <div class="advisor-section">
+                    <div class="advisor-image">
+                        <img src="pictures/Advisor.png" alt="Константин Бочкарев">
+                    </div>
+                    <div class="advisor-info">
+                        <h3>Константин Бочкарев, Advisor</h3>
+                        <p>Управляющий партнер BCHK Legal</p>
+                        <ul class="achievement-list">
+                            <li>Выпускник Stanford Law School</li>
+                            <li>20+ лет в юридическом консалтинге</li>
+                            <li>Топ-эксперт по корпоративному праву и M&A</li>
+                            <li>Консультировал сделки на $1B+</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Investment Section -->
+    <section id="investment" class="investment animate-on-scroll">
+        <div class="container">
+            <h2>Инвестиции и метрики</h2>
+            <div class="investment-grid">
+                <div class="investment-card">
+                    <div class="investment-amount">$500K</div>
+                    <h3>Pre-Seed раунд</h3>
+                    <p>Использование средств:</p>
+                    <ul class="milestone-list">
+                        <li>40% - Разработка (AI/ML команда)</li>
+                        <li>30% - Маркетинг и продажи</li>
+                        <li>20% - Операционные расходы</li>
+                        <li>10% - Юридические и compliance</li>
+                    </ul>
+                </div>
+                <div class="investment-card">
+                    <div class="investment-amount">18 месяцев</div>
+                    <h3>Roadmap 2025-2026</h3>
+                    <ul class="milestone-list" style="font-size: 0.95rem;">
+                        <li><strong>Q4 2025:</strong> Анализ, рекомендации, выгрузка отчетов ✓</li>
+                        <li><strong>Q1 2026:</strong> Генерация документов, ответные письма,AI-аргументация</li>
+                        <li><strong>Q2 2026:</strong> Поиск прецедентов, сравнение версий,мировой поиск дел</li>
+                        <li><strong>Q3 2026:</strong> API, интеграции с CRM/ERP</li>
+                        <li><strong>Q4 2026:</strong> Командные функции, автоматизация</li>
+                        <li><strong>Q2 2027:</strong> Выстраивание стратегий защиты</li>
+                        <li><strong>Q3 2027:</strong> Series A - $1M+ MRR</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="metrics-grid" style="margin-top: 3rem;">
+                <div class="metric-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Прогноз доходов</h3>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; text-align: left;">
+                        <div>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Месяц 3:</p>
+                            <p style="color: white; font-size: 1.3rem; font-weight: bold;">$12K MRR</p>
+                            <p style="color: #64748b; font-size: 0.85rem;">~200 платных</p>
+                        </div>
+                        <div>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Месяц 6:</p>
+                            <p style="color: white; font-size: 1.3rem; font-weight: bold;">$50K MRR</p>
+                            <p style="color: #64748b; font-size: 0.85rem;">~800 платных</p>
+                        </div>
+                        <div>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Месяц 9:</p>
+                            <p style="color: white; font-size: 1.3rem; font-weight: bold;">$150K MRR</p>
+                            <p style="color: #64748b; font-size: 0.85rem;">~1500 платных</p>
+                        </div>
+                        <div>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Месяц 12:</p>
+                            <p style="color: white; font-size: 1.3rem; font-weight: bold;">$330K MRR</p>
+                            <p style="color: #64748b; font-size: 0.85rem;">~2000 платных</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="metric-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Ключевые метрики</h3>
+                    <ul style="list-style: none; text-align: left;">
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #94a3b8;">Средний чек:</span>
+                            <span style="color: white; float: right; font-weight: bold;">$165</span>
+                        </li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #94a3b8;">CAC:</span>
+                            <span style="color: white; float: right; font-weight: bold;">$50</span>
+                        </li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #94a3b8;">LTV:</span>
+                            <span style="color: white; float: right; font-weight: bold;">$1,980</span>
+                        </li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #94a3b8;">LTV/CAC:</span>
+                            <span style="color: white; float: right; font-weight: bold;">40x</span>
+                        </li>
+                        <li style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                            <span style="color: #94a3b8;">Churn Rate:</span>
+                            <span style="color: white; float: right; font-weight: bold;">5%/мес</span>
+                        </li>
+                        <li style="padding: 0.5rem 0;">
+                            <span style="color: #94a3b8;">Gross Margin:</span>
+                            <span style="color: white; float: right; font-weight: bold;">90%</span>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div class="metric-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); grid-column: span 2;">
+                    <h3 style="color: var(--accent); margin-bottom: 1rem;">Структура подписок к концу года</h3>
+                    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; text-align: center;">
+                        <div>
+                            <p style="color: var(--accent); font-size: 1.5rem; font-weight: bold;">60%</p>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Freemium</p>
+                            <p style="color: #64748b; font-size: 0.8rem;">3000 пользователей</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--accent); font-size: 1.5rem; font-weight: bold;">20%</p>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Starter $59</p>
+                            <p style="color: #64748b; font-size: 0.8rem;">1000 × $59 = $59K</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--accent); font-size: 1.5rem; font-weight: bold;">15%</p>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Pro $199</p>
+                            <p style="color: #64748b; font-size: 0.8rem;">750 × $199 = $149K</p>
+                        </div>
+                        <div>
+                            <p style="color: var(--accent); font-size: 1.5rem; font-weight: bold;">5%</p>
+                            <p style="color: #94a3b8; font-size: 0.9rem;">Business $499</p>
+                            <p style="color: #64748b; font-size: 0.8rem;">250 × $499 = $125K</p>
+                        </div>
+                    </div>
+                    <p style="text-align: center; color: var(--accent); margin-top: 1rem; font-size: 1.2rem;">
+                        Итого: 5000 пользователей, $333K MRR
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Valuation Section -->
+            <div style="background: linear-gradient(135deg, rgba(103, 126, 234, 0.1), rgba(118, 75, 162, 0.1)); padding: 2rem; border-radius: 20px; margin-top: 3rem; border: 1px solid rgba(255,255,255,0.1);">
+                <h3 style="color: white; text-align: center; margin-bottom: 2rem; font-size: 1.8rem;">Прогноз стоимости компании</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+                    <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Через 6 месяцев</p>
+                        <p style="color: var(--accent); font-size: 2.5rem; font-weight: bold; margin: 0;">$6M</p>
+                        <p style="color: #64748b; font-size: 0.85rem;">$50K MRR × 10 (ранняя стадия)</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Через 12 месяцев</p>
+                        <p style="color: var(--accent); font-size: 2.5rem; font-weight: bold; margin: 0;">$20M</p>
+                        <p style="color: #64748b; font-size: 0.85rem;">$330K MRR × 5 (рост 100%+)</p>
+                    </div>
+                    <div style="text-align: center; padding: 1.5rem; background: rgba(255,255,255,0.05); border-radius: 15px;">
+                        <p style="color: #94a3b8; font-size: 0.9rem; margin-bottom: 0.5rem;">Series A (Q4 2026)</p>
+                        <p style="color: var(--accent); font-size: 2.5rem; font-weight: bold; margin: 0;">$50M+</p>
+                        <p style="color: #64748b; font-size: 0.85rem;">$1M+ MRR × 4.2 (SaaS стандарт)</p>
+                    </div>
+                </div>
+                <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(16, 185, 129, 0.1); border-radius: 15px; border: 1px solid rgba(16, 185, 129, 0.3);">
+                    <h4 style="color: var(--accent); margin-bottom: 1rem;">Ключевые факторы роста оценки:</h4>
+                    <ul style="list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                        <li style="padding: 0.5rem; color: rgba(255,255,255,0.9);">
+                            <span style="color: var(--accent);">✓</span> Рынок Legal Tech растет 35% CAGR
+                        </li>
+                        <li style="padding: 0.5rem; color: rgba(255,255,255,0.9);">
+                            <span style="color: var(--accent);">✓</span> NRR 125% (апселы на тарифы)
+                        </li>
+                        <li style="padding: 0.5rem; color: rgba(255,255,255,0.9);">
+                            <span style="color: var(--accent);">✓</span> Payback Period 2 месяца
+                        </li>
+                        <li style="padding: 0.5rem; color: rgba(255,255,255,0.9);">
+                            <span style="color: var(--accent);">✓</span> Zero marginal cost (AI)
+                        </li>
+                         <li style="padding: 0.5rem; color: rgba(255,255,255,0.9);">
+                            <span style="color: var(--accent);">✓</span> Stanford Law advisor
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Присоединяйтесь к революции в Legal Tech</h2>
+            <p class="cta-description">
+                К 2030 году каждая компания будет использовать AI для юридических задач.<br>
+                Jurmak станет стандартом отрасли для русскоязычного рынка.
+            </p>
+            <a href="mailto:kornilov@wfstd.com" class="cta-button">Обсудить инвестиции</a>
+            <div class="contact-info">
+                <div class="contact-item">
+                    <a href="mailto:kornilov@wfstd.com">kornilov@wfstd.com</a>
+                </div>
+                <div class="contact-item">
+                    <a href="tel:+79524446853">+7 (952) 444-68-53</a>
+                </div>
+                <div class="contact-item">
+                    <a href="https://t.me/emotiongenerator" target="_blank">@emotiongenerator</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.animate-on-scroll').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Counter animation for numbers
+        function animateValue(element, start, end, duration) {
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                element.textContent = Math.floor(progress * (end - start) + start);
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
+        // Animate metrics when visible
+        const metricObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !entry.target.classList.contains('animated')) {
+                    entry.target.classList.add('animated');
+                    const value = entry.target.textContent;
+                    if (value.includes('%')) {
+                        const num = parseInt(value);
+                        entry.target.textContent = '0%';
+                        animateValue(entry.target, 0, num, 1500);
+                        setTimeout(() => {
+                            entry.target.textContent = num + '%';
+                        }, 1500);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.metric-value').forEach(el => {
+            metricObserver.observe(el);
+        });
+    </script>
+</body>
+</html>
